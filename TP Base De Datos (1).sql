@@ -126,15 +126,15 @@ insert into Reino values
 ('Princedom of Dorne', 30000, 'Westeros', 'Sur');
 
 insert into Casa values
-('House Stark', 'Winter is coming', 'Lobo huargo', 'Gris', 'Antiguos Dioses', '200.01.01', 'Kingdom of The North'),
-('House Lannister', 'Hear me roar', 'Leon', 'Carmesí', 'Fe de los Siete', '300.01.01', 'Kingdom of The Rock'),
+('House Stark', 'Winter is coming', 'Lobo huargo', 'Gris', 'Antiguos Dioses', '0200.01.01', 'Kingdom of The North'),
+('House Lannister', 'Hear me roar', 'Leon', 'Carmesí', 'Fe de los Siete', '0300.01.01', 'Kingdom of The Rock'),
 ('House Baratheon', 'Ours is the Fury', 'Ciervo', 'Amarillo', 'Señor de la Luz', '1100.01.01', 'Kingdom of the Stormlands'),
-('House Targaryen', 'Fire and Blood', 'Dragon', 'Rojo', 'Dioses de Valyria', '100.01.01', 'Kingdom of The Rock'),
-('House Arryn', 'As High as Honor', 'Pajaro', 'Celeste', 'Fe de los Siete', '350.01.01', 'Kingdom of the Mountain and The Vale'),
-('House Tyrell', 'Growing Strong', 'Flor', 'Verde', 'Fe de los Siete', '100.01.01', 'Kingdom of the Reach'),
-('House Greyjoy', 'We Do Not Sow', 'Kraken', 'Negro', 'Dios Ahogado', '400.01.01', 'Kingdom of the Isles and the Rivers'),
-('House Martell', 'Unbowed, Unbent, Unbroken', 'Sol', 'Naranja', 'Fe de los Siete', '200.01.01', 'Princedom of Dorne'),
-('House Bolton', 'Our Blades Are Sharp', 'Hombre Desollado', 'Rosa', 'Fe de los Siete', '800.01.01', 'Kingdom of The North');
+('House Targaryen', 'Fire and Blood', 'Dragon', 'Rojo', 'Dioses de Valyria', '0100.01.01', 'Kingdom of The Rock'),
+('House Arryn', 'As High as Honor', 'Pajaro', 'Celeste', 'Fe de los Siete', '0350.01.01', 'Kingdom of the Mountain and The Vale'),
+('House Tyrell', 'Growing Strong', 'Flor', 'Verde', 'Fe de los Siete', '0100.01.01', 'Kingdom of the Reach'),
+('House Greyjoy', 'We Do Not Sow', 'Kraken', 'Negro', 'Dios Ahogado', '0400.01.01', 'Kingdom of the Isles and the Rivers'),
+('House Martell', 'Unbowed, Unbent, Unbroken', 'Sol', 'Naranja', 'Fe de los Siete', '0200.01.01', 'Princedom of Dorne'),
+('House Bolton', 'Our Blades Are Sharp', 'Hombre Desollado', 'Rosa', 'Fe de los Siete', '0800.01.01', 'Kingdom of The North');
 
 insert into Especie values
 ('White Walker', 1, 1),
@@ -210,10 +210,10 @@ insert into Maestro values
 ('Maestre Real', 'Señor');
 
 insert into Guerra values
-('200.01.01', 'Roca Casterly', 10000),
-('700.01.01', 'Evenfrost', 3000),
+('0200.01.01', 'Roca Casterly', 10000),
+('0700.01.01', 'Evenfrost', 3000),
 ('1200.01.01', 'La Muralla', 2000),
-('900.01.01', 'Durion', 500);
+('0900.01.01', 'Durion', 500);
 
 insert into Ejerce values 
 ('1530.01.01', 'Eddard Stark', '1500.01.01', 'Señor'),
@@ -231,16 +231,16 @@ insert into Ejerce values
 ('1525.01.01', 'Cersei Lannister', '1510.01.01', 'Señor');
 
 insert into Participa values
-('House Lannister', '200.01.01', 'Roca Casterly', 0),
-('House Targaryen', '200.01.01', 'Roca Casterly', 1),
-('House Stark', '700.01.01', 'Evenfrost', 1),
-('House Greyjoy', '700.01.01', 'Evenfrost', 0),
-('House Arryn', '700.01.01', 'Evenfrost', 0),
+('House Lannister', '0200.01.01', 'Roca Casterly', 0),
+('House Targaryen', '0200.01.01', 'Roca Casterly', 1),
+('House Stark', '0700.01.01', 'Evenfrost', 1),
+('House Greyjoy', '0700.01.01', 'Evenfrost', 0),
+('House Arryn', '0700.01.01', 'Evenfrost', 0),
 ('House Lannister', '1200.01.01', 'La Muralla', 0),
 ('House Stark', '1200.01.01', 'La Muralla', 1),
 ('House Baratheon', '1200.01.01', 'La Muralla', 0),
-('House Lannister', '900.01.01', 'Durion', 1),
-('House Targaryen', '900.01.01', 'Durion', 0);
+('House Lannister', '0900.01.01', 'Durion', 1),
+('House Targaryen', '0900.01.01', 'Durion', 0);
 
 /*1)¿Cuáles son las ciudades que no forman parte de ningún reino?*/
 select *
@@ -268,7 +268,7 @@ from personaje as p left join casa as c on p.nombre_casa=c.nombre
 left join ciudad as ciu on c.nombre_reino=ciu.nombre_reino
 order by ciu.extension_km desc;
 
-/*5)¿Qué personajes han tenido todas las profesiones disponibles?*/
+#5)¿Qué personajes han tenido todas las profesiones disponibles?
 select p.nombre
 from personaje as p
 where not exists 
@@ -278,3 +278,32 @@ where not exists
 (select * 
 from ejerce as e
 where p.nombre=e.nombre and p.año_nac=e.año_nac and pro.nombre=e.nombre_pro));
+
+#6)¿Qué casas contemplan todas las profesiones?
+select c.nombre
+from casa as c
+where not exists(select *
+				 from profesion as p
+                 where not exists(select *
+								  from personaje as per
+                                  inner join ejerce as e
+                                  on e.nombre = per.nombre
+                                  where per.nombre_casa = c.nombre
+                                  and e.nombre_pro = p.nombre));
+                                  
+#7)Ranking de especies del último milenio por casa.
+select casa.nombre, especie.nombre_cienti, count(personaje.nombre) as cantidadPersonajes
+from especie
+inner join personaje
+on personaje.nombre_cienti = especie.nombre_cienti
+inner join casa
+on casa.nombre = personaje.nombre_casa
+where year(casa.fecha_fund) > 0200
+group by especie.nombre_cienti, casa.nombre
+order by cantidadPersonajes desc;
+
+#8)¿Cuál es el costo de las guerras en vidas, durante el último milenio y su porcentaje respecto del total de vidas?
+select sum(guerra.muertes) as costoTotalVidas
+from guerra
+where year(guerra.año_inicio) > 0199; /*falta arreglar como sacar el ultimo milenio(en punto 7 y 8) y como sacar el porcentaje respecto del total de vidas*/
+
