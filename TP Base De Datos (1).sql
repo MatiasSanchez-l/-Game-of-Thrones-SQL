@@ -298,12 +298,12 @@ inner join personaje
 on personaje.nombre_cienti = especie.nombre_cienti
 inner join casa
 on casa.nombre = personaje.nombre_casa
-where year(casa.fecha_fund) > 0200
+where year(personaje.año_nac) > 1473
 group by especie.nombre_cienti, casa.nombre
 order by cantidadPersonajes desc;
 
 #8)¿Cuál es el costo de las guerras en vidas, durante el último milenio y su porcentaje respecto del total de vidas?
 select sum(guerra.muertes) as costoTotalVidas
 from guerra
-where year(guerra.año_inicio) > 0199; /*falta arreglar como sacar el ultimo milenio(en punto 7 y 8) y como sacar el porcentaje respecto del total de vidas*/
+where year(guerra.año_inicio) > 1473; /*falta arreglar como sacar el ultimo milenio(en punto 7 y 8) y como sacar el porcentaje respecto del total de vidas*/
 
