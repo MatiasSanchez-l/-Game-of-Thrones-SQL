@@ -1,6 +1,6 @@
-# Trabajo Práctico Base de Datos ?????
+# Trabajo PrÃ¡ctico Base de Datos ğŸ‘¨â€ğŸ’»
 
-Un trabajo práctico para Base de Datos I.
+Un trabajo prÃ¡ctico para Base de Datos I.
 
-## En este trabajo práctico se va a hacer:
-* Un modelo físico con un script de creación de estructuras e inserción de datos en MySQL (DML y DDL).
+## En este trabajo prÃ¡ctico se va a hacer:
+* Un modelo fÃ­sico con un script de creaciÃ³n de estructuras e inserciÃ³n de datos en MySQL (DML y DDL).
