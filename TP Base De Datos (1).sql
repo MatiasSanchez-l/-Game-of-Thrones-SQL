@@ -292,20 +292,41 @@ where not exists(select *
                                   and e.nombre_pro = p.nombre));
                                   
 #7)Ranking de especies del último milenio por casa.
-select casa.nombre, especie.nombre_cienti, count(personaje.nombre) as cantidadPersonajes
-from especie
-inner join personaje
-on personaje.nombre_cienti = especie.nombre_cienti
-inner join casa
-on casa.nombre = personaje.nombre_casa
-where year(personaje.año_nac) > 1473
-group by especie.nombre_cienti, casa.nombre
-order by cantidadPersonajes desc;
+select e.nombre_cienti as Especie, count(p.nombre) as Cantidad_de_Personajes
+from milenio, especie as e
+inner join personaje as p
+on p.nombre_cienti = e.nombre_cienti
+where year(p.año_nac) > milenio
+group by e.nombre_cienti
+order by Cantidad_de_Personajes desc;
+
+create view milenio
+as select (max(year(p.año_nac))+20)-1000 as milenio
+from personaje as p;
 
 #8)¿Cuál es el costo de las guerras en vidas, durante el último milenio y su porcentaje respecto del total de vidas?
-select sum(guerra.muertes) as costoTotalVidas
-from guerra
-where year(guerra.año_inicio) > 1473; /*falta arreglar como sacar el ultimo milenio(en punto 7 y 8) y como sacar el porcentaje respecto del total de vidas*/
+select sum(g.muertes) as Costo_Total_de_Vidas, g.lugar, ((suma*100)/sum(g.muertes)) as porcentaje
+from milenio, guerra as g, 
+(select sum(cantidad) as suma
+from (select count(p.nombre) as cantidad, p.nombre_casa as casa
+from personaje as p
+group by p.nombre_casa
+order by cantidad desc) as cantidad_vivos
+where casa in 
+(select distinct nombre
+from participa)) as suma_pj_vivos
+where year(g.año_inicio) > milenio
+group by g.lugar;
+
+/*select sum(cantidad) as suma, g.lugar
+from (select count(p.nombre) as cantidad, p.nombre_casa as casa
+from personaje as p
+group by p.nombre_casa
+order by cantidad desc) as cantidad_vivos, guerra as g
+where casa in 
+(select distinct nombre
+from participa)
+group by g.lugar*/
 
 #9)¿Cuáles son las especies que se han cruzado y han tenido linajes fructíferos? Al menos dos generaciones.
 
