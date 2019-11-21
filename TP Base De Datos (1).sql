@@ -307,3 +307,20 @@ select sum(guerra.muertes) as costoTotalVidas
 from guerra
 where year(guerra.año_inicio) > 1473; /*falta arreglar como sacar el ultimo milenio(en punto 7 y 8) y como sacar el porcentaje respecto del total de vidas*/
 
+#9)¿Cuáles son las especies que se han cruzado y han tenido linajes fructíferos? Al menos dos generaciones.
+
+select c.nombre_cienti as especie_abuela , a.nombre_cienti as especie_abuelo
+from personaje as c
+inner join personaje as v on c.nombre=v.madre_es
+inner join personaje as f on v.nombre=f.madre_es
+inner join personaje as p on f.padre_es=p.nombre
+inner join personaje as a on p.padre_es=a.nombre
+where c.nombre_cienti not like a.nombre_cienti;
+
+insert into personaje values
+('abuelo', '1490.01.01', 0, 'Vivo', 'Espectro', 'House Lannister', null, null, null, null),
+('abuela', '1490.01.01', 0, 'Muerto', 'Espectro', 'House Lannister', null, null, null, null),
+('papa', '1510.01.01', 0, 'Vivo', 'Espectro', 'House Lannister','abuelo', '1490.01.01', '1490.01.01','abuela'),
+('mama', '1510.01.01', 0, 'Vivo', 'Espectro', 'House Lannister', 'abuelo', '1490.01.01', '1490.01.01','abuela'),
+('hijo', '1560.01.01', 0, 'Muerto', 'Espectro', 'House Lannister', 'papa', '1510.01.01', '1510.01.01', 'mama');
+
