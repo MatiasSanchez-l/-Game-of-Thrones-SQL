@@ -338,10 +338,3 @@ inner join personaje as p on f.padre_es=p.nombre
 inner join personaje as a on p.padre_es=a.nombre
 where c.nombre_cienti not like a.nombre_cienti;
 
-insert into personaje values
-('abuelo', '1490.01.01', 0, 'Vivo', 'Espectro', 'House Lannister', null, null, null, null),
-('abuela', '1490.01.01', 0, 'Muerto', 'Espectro', 'House Lannister', null, null, null, null),
-('papa', '1510.01.01', 0, 'Vivo', 'Espectro', 'House Lannister','abuelo', '1490.01.01', '1490.01.01','abuela'),
-('mama', '1510.01.01', 0, 'Vivo', 'Espectro', 'House Lannister', 'abuelo', '1490.01.01', '1490.01.01','abuela'),
-('hijo', '1560.01.01', 0, 'Muerto', 'Espectro', 'House Lannister', 'papa', '1510.01.01', '1510.01.01', 'mama');
-
