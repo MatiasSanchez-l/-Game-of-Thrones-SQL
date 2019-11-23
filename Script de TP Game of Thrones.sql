@@ -320,16 +320,6 @@ from participa)) as suma_pj_vivos
 where year(g.año_inicio) > milenio
 group by g.lugar;
 
-/*select sum(cantidad) as suma, g.lugar
-from (select count(p.nombre) as cantidad, p.nombre_casa as casa
-from personaje as p
-group by p.nombre_casa
-order by cantidad desc) as cantidad_vivos, guerra as g
-where casa in 
-(select distinct nombre
-from participa)
-group by g.lugar*/
-
 #9)¿Cuáles son las especies que se han cruzado y han tenido linajes fructíferos? Al menos dos generaciones.
 
 select c.nombre_cienti as especie_abuela , a.nombre_cienti as especie_abuelo
