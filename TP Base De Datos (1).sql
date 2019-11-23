@@ -343,39 +343,39 @@ where c.nombre_cienti not like a.nombre_cienti;
 
 #10) Esquema de los Reinos Interestelares
 create table Reino_Interestelar(
-nombre varchar (30) not null,
+nombre_reino varchar (30) not null,
 primary key (nombre)
 );
 
 create table Guerra_Entre(
-reino_uno varchar (30),
-reino_dos varchar (30),
-primary key (reino_uno, reino_dos),
-foreign key (reino_uno) references Reino_Interestelar (nombre)
+nombre_reino1 varchar (30),
+nombre_reino2 varchar (30),
+primary key (nombre_reino1, nombre_reino2),
+foreign key (nombre_reino1) references Reino_Interestelar (nombre_reino)
 );
 
-alter table Guerra_Entre add constraint foreign key (reino_dos) references Reino (nombre);
+alter table Guerra_Entre add constraint foreign key (nombre_reino2) references Reino (nombre_reino);
 
 create table Galaxia(
-nombre varchar (30) not null,
+nombre_galaxia varchar (30) not null,
 distancia integer not null,
-primary key (nombre)
+primary key (nombre_galaxia)
 );
 
 create table Planeta(
-nombre varchar (30) not null,
+nombre_planeta varchar (30) not null,
 distancia integer not null,
 nombre_galaxia varchar (30),
 nombre_reino varchar (30),
-primary key(nombre),
-foreign key(nombre_galaxia) references Galaxia (nombre),
-foreign key(nombre_reino) references Reino_Interestelar (nombre)
+primary key(nombre_planeta),
+foreign key(nombre_galaxia) references Galaxia (nombre_galaxia),
+foreign key(nombre_reino) references Reino_Interestelar (nombre_reino)
 );
 
 create table Compuesto_Por (
 nombre_galaxia varchar (30),
 nombre_reino varchar (30),
 primary key(nombre_reino, nombre_galaxia),
-foreign key(nombre_galaxia) references Galaxia (nombre),
-foreign key(nombre_reino) references Reino_Interestelar (nombre)
+foreign key(nombre_galaxia) references Galaxia (nombre_galaxia),
+foreign key(nombre_reino) references Reino_Interestelar (nombre_reino)
 );
