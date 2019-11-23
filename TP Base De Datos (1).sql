@@ -32,6 +32,8 @@ hostil bit not null,
 existe bit not null,
 primary key (nombre_cienti)
 );
+/*nombre_reino varchar (30)
+foreign key(nombre_reino) references Reino_Interestelar(nombre)*/
 
 create table Estado(
 tipo varchar (10) not null,
@@ -338,3 +340,42 @@ inner join personaje as p on f.padre_es=p.nombre
 inner join personaje as a on p.padre_es=a.nombre
 where c.nombre_cienti not like a.nombre_cienti;
 
+
+#10) Esquema de los Reinos Interestelares
+create table Reino_Interestelar(
+nombre varchar (30) not null,
+primary key (nombre)
+);
+
+create table Guerra_Entre(
+reino_uno varchar (30),
+reino_dos varchar (30),
+primary key (reino_uno, reino_dos),
+foreign key (reino_uno) references Reino_Interestelar (nombre)
+);
+
+alter table Guerra_Entre add constraint foreign key (reino_dos) references Reino (nombre);
+
+create table Galaxia(
+nombre varchar (30) not null,
+distancia integer not null,
+primary key (nombre)
+);
+
+create table Planeta(
+nombre varchar (30) not null,
+distancia integer not null,
+nombre_galaxia varchar (30),
+nombre_reino varchar (30),
+primary key(nombre),
+foreign key(nombre_galaxia) references Galaxia (nombre),
+foreign key(nombre_reino) references Reino_Interestelar (nombre)
+);
+
+create table Compuesto_Por (
+nombre_galaxia varchar (30),
+nombre_reino varchar (30),
+primary key(nombre_reino, nombre_galaxia),
+foreign key(nombre_galaxia) references Galaxia (nombre),
+foreign key(nombre_reino) references Reino_Interestelar (nombre)
+);
